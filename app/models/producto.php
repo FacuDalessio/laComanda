@@ -78,5 +78,22 @@
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Producto');
     }
+
+    public static function buscarUno($idProducto)
+    {
+        $objAccesoDato = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDato->prepararConsulta("SELECT * FROM productos WHERE id = :id");
+        $consulta->bindValue(':id', $idProducto, PDO::PARAM_INT);
+        $consulta->execute();
+        return $consulta->fetchObject('Producto');
     }
+
+    public static function borrarProducto($idProducto)
+    {
+        $objAccesoDato = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDato->prepararConsulta("DELETE FROM productos WHERE id = :id");
+        $consulta->bindValue(':id', $idProducto, PDO::PARAM_INT);
+        $consulta->execute();
+    }
+}
 ?>

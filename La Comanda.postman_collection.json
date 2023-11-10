@@ -1,0 +1,277 @@
+{
+	"info": {
+		"_postman_id": "1172f8e8-36d4-4dde-bf69-730b065d324b",
+		"name": "La Comanda",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21509973"
+	},
+	"item": [
+		{
+			"name": "trabajador",
+			"item": [
+				{
+					"name": "crear trabajador",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nombre",
+									"value": "facundo",
+									"type": "text"
+								},
+								{
+									"key": "rol",
+									"value": "mozo",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/trabajadores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"trabajadores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar todos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/trabajadores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"trabajadores"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "producto",
+			"item": [
+				{
+					"name": "crear producto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nombre",
+									"value": "milanesa",
+									"type": "text"
+								},
+								{
+									"key": "stock",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "categoria",
+									"value": "comida",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/productos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar todos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/productos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "mesa",
+			"item": [
+				{
+					"name": "crear mesa",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/mesas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"mesas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar todas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/mesas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"mesas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "pedido",
+			"item": [
+				{
+					"name": "crear pedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idMesa",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "idBartender",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "idCerveceros",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "idCocineros",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "idMozos",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "importe",
+									"value": "4000",
+									"type": "text"
+								},
+								{
+									"key": "estado",
+									"value": "pendiente",
+									"type": "text"
+								},
+								{
+									"key": "tiempo",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "productos",
+									"value": "milanesa a la napolitana",
+									"type": "text"
+								},
+								{
+									"key": "fecha",
+									"value": "02/11/2023",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/pedidos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar todos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/pedidos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
