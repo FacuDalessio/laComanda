@@ -13,10 +13,10 @@ require './controllers/productoController.php';
 require './controllers/mesaController.php';
 require './controllers/pedidoController.php';
 require './middlewares/verificarSocioMiddleware.php';
-require './middlewares/cargarTrabajadorMiddleware.php';
-require './middlewares/ProductoMiddleware.php';
-require './middlewares/cargarPedidoMiddleware.php';
-require './middlewares/modificarTrabajadorMiddleware.php';
+require './middlewares/trabajadorMiddleware.php';
+require './middlewares/productoMiddleware.php';
+require './middlewares/pedidoMiddleware.php';
+require './middlewares/mesaMiddleware.php';
 
 
 $app = AppFactory::create();
@@ -34,6 +34,7 @@ $app->group('/productos', function (RouteCollectorProxy $group) {
     $group->post('[/]', \ProductoController::class . ':CargarUno')->add(new VerificarSocio())->add(new CargarProducto);
     $group->delete('/{idProducto}', \ProductoController::class . ':BorrarUno')->add(new VerificarSocio());
     $group->get('/{idProducto}', \ProductoController::class . ':TraerUno');
+    $group->put('/{idProducto}', \ProductoController::class . ':ModificarUno')->add(new VerificarSocio())->add(new ModificarProducto());
   });
 
 $app->group('/mesas', function (RouteCollectorProxy $group) {
@@ -41,6 +42,7 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->post('[/]', \MesaController::class . ':CargarUno')->add(new VerificarSocio());
     $group->delete('/{idMesa}', \MesaController::class . ':BorrarUno')->add(new VerificarSocio());
     $group->get('/{idMesa}', \MesaController::class . ':TraerUno')->add(new VerificarSocio());
+    $group->put('/{idMesa}', \MesaController::class . ':ModificarUno')->add(new VerificarSocio())->add(new ModificarMesa());
     // $group->get('/cerradas', \MesaController::class . ':TraerMesasCerradas');
   });
 
@@ -54,6 +56,7 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->post('[/]', \PedidoController::class . ':CargarUno')->add(new CargarPedido());
     $group->delete('/{idPedido}', \PedidoController::class . ':BorrarUno')->add(new VerificarSocio());
     $group->get('/{idPedido}', \PedidoController::class . ':TraerUno');
+    $group->put('/{idPedido}', \PedidoController::class . ':ModificarUno')->add(new ModificarPedido());
   });
 
 $app->run();

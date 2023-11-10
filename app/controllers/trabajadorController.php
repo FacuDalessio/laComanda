@@ -66,9 +66,11 @@
 
     public function ModificarUno($request, $response, $args)
     {
-        $trabajadorId = $args['idTrabajador'];
+        $trabajador = $request->getAttribute('trabajador');
+        
+        Trabajador::modificarTrabajador($trabajador);
 
-        $payload = json_encode(array("mensaje" => "Usuario modificado con exito"));
+        $payload = json_encode(array("mensaje" => "Trabajador modificado con exito"));
 
         $response->getBody()->write($payload);
         return $response

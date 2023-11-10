@@ -61,5 +61,17 @@
         return $response
           ->withHeader('Content-Type', 'application/json');
     }
+    public function ModificarUno($request, $response, $args)
+    {
+        $producto = $request->getAttribute('producto');
+        
+        Producto::modificarProducto($producto);
+
+        $payload = json_encode(array("mensaje" => "Producto modificado con exito"));
+
+        $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
+    }
     }
 ?>

@@ -66,5 +66,18 @@
         return $response
           ->withHeader('Content-Type', 'application/json');
     }
+
+    public function ModificarUno($request, $response, $args)
+    {
+        $mesa = $request->getAttribute('mesa');
+        
+        Mesa::modificarMesa($mesa);
+
+        $payload = json_encode(array("mensaje" => "Mesa modificada con exito"));
+
+        $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
+    }
     }
 ?>

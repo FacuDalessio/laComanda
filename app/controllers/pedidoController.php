@@ -66,5 +66,18 @@
         return $response
           ->withHeader('Content-Type', 'application/json');
     }
+
+    public function ModificarUno($request, $response, $args)
+    {
+        $pedido = $request->getAttribute('pedido');
+        
+        Pedido::modificarPedido($pedido);
+
+        $payload = json_encode(array("mensaje" => "Pedido modificado con exito"));
+
+        $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
+    }
     }
 ?>

@@ -129,4 +129,17 @@ class Mesa implements JsonSerializable
         $consulta->bindValue(':id', $idMesa, PDO::PARAM_INT);
         $consulta->execute();
     }
+
+    public static function modificarMesa($mesa)
+    {
+        $objAccesoDato = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE mesas SET cliente = :cliente, idPedido = :idPedido, estado = :estado, idMozo = :idMozo
+                                                WHERE id = :id");
+        $consulta->bindValue(':cliente', $mesa->cliente, PDO::PARAM_STR);
+        $consulta->bindValue(':idPedido', $mesa->idPedido, PDO::PARAM_INT);
+        $consulta->bindValue(':estado', $mesa->estado, PDO::PARAM_STR);
+        $consulta->bindValue(':idMozo', $mesa->idMozo, PDO::PARAM_INT);
+        $consulta->bindValue(':id', $mesa->id);
+        $consulta->execute();
+    }
 }

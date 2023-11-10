@@ -198,4 +198,23 @@ class Pedido implements JsonSerializable
         $consulta->bindValue(':id', $idPedido, PDO::PARAM_INT);
         $consulta->execute();
     }
+
+    public static function modificarPedido($pedido)
+    {
+        $objAccesoDato = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE pedidos SET idMesa = :idMesa, idBartender = :idBartender, idCerveceros = :idCerveceros, 
+                                idCocineros = :idCocineros, idMozos = :idMozos, importe = :importe, estado = :estado, tiempo = :tiempo,
+                                productos = :productos WHERE id = :id");
+        $consulta->bindValue(':idMesa', $pedido->idMesa, PDO::PARAM_INT);
+        $consulta->bindValue(':idBartender', $pedido->idBartender, PDO::PARAM_INT);
+        $consulta->bindValue(':idCerveceros', $pedido->idCerveceros, PDO::PARAM_INT);
+        $consulta->bindValue(':idCocineros', $pedido->idCocineros, PDO::PARAM_INT);
+        $consulta->bindValue(':idMozos', $pedido->idMozos, PDO::PARAM_INT);
+        $consulta->bindValue(':importe', $pedido->importe, PDO::PARAM_STR);
+        $consulta->bindValue(':estado', $pedido->estado, PDO::PARAM_STR);
+        $consulta->bindValue(':tiempo', $pedido->tiempo, PDO::PARAM_INT);
+        $consulta->bindValue(':productos', $pedido->productos, PDO::PARAM_STR);
+        $consulta->bindValue(':id', $pedido->id);
+        $consulta->execute();
+    }
 }

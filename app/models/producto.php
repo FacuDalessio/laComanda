@@ -95,5 +95,18 @@
         $consulta->bindValue(':id', $idProducto, PDO::PARAM_INT);
         $consulta->execute();
     }
+
+    public static function modificarProducto($producto)
+    {
+        $objAccesoDato = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE productos SET nombre = :nombre, stock = :stock, precio = :precio, categoria = :categoria 
+                                                WHERE id = :id");
+        $consulta->bindValue(':nombre', $producto->nombre, PDO::PARAM_STR);
+        $consulta->bindValue(':stock', $producto->stock, PDO::PARAM_INT);
+        $consulta->bindValue(':precio', $producto->precio, PDO::PARAM_STR);
+        $consulta->bindValue(':categoria', $producto->categoria, PDO::PARAM_STR);
+        $consulta->bindValue(':id', $producto->id);
+        $consulta->execute();
+    }
 }
 ?>
