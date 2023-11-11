@@ -63,3 +63,33 @@ class ModificarTrabajador
         return $response->withHeader('Content-Type', 'application/json');
     }
 }
+
+class FiltrarMozos
+{
+    public function __invoke(Request $request, RequestHandler $handler): Response
+    {   
+        
+        $response = $handler->handle($request);
+
+        
+        $bodyContent = (string) $response->getBody();
+        $responseData = json_decode($bodyContent, true);
+        
+        $mozos = array_filter($responseData['listaTrabajadores'], function ($trabajador) {
+            return $trabajador['rol'] === 'mozo';
+        });
+
+        
+        $filteredData = ['listaTrabajadores' => $mozos];
+
+        
+        $filteredJson = json_encode($filteredData, JSON_PRETTY_PRINT);
+
+        $filteredResponse = new Response();
+        $filteredResponse->getBody()->write($filteredJson);
+
+        return $filteredResponse;
+        
+    }
+}
+?>

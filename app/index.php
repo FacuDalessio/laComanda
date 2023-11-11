@@ -12,17 +12,21 @@ require './controllers/trabajadorController.php';
 require './controllers/productoController.php';
 require './controllers/mesaController.php';
 require './controllers/pedidoController.php';
+require './controllers/socioController.php';
 require './middlewares/verificarSocioMiddleware.php';
 require './middlewares/trabajadorMiddleware.php';
 require './middlewares/productoMiddleware.php';
 require './middlewares/pedidoMiddleware.php';
 require './middlewares/mesaMiddleware.php';
+require './middlewares/clienteMiddleware.php';
+require './middlewares/socioMiddleware.php';
 
 
 $app = AppFactory::create();
 
 $app->group('/trabajadores', function (RouteCollectorProxy $group) {
     $group->get('[/]', \TrabajadorController::class . ':TraerTodos');
+    $group->get('/mozos', \TrabajadorController::class . ':TraerTodos')->add(new FiltrarMozos());
     $group->get('/{idTrabajador}', \TrabajadorController::class . ':TraerUno');
     $group->delete('/{idTrabajador}', \TrabajadorController::class . ':BorrarUno');
     $group->put('/{idTrabajador}', \TrabajadorController::class . ':ModificarUno')->add(new ModificarTrabajador());
@@ -48,6 +52,7 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
 
   $app->group('/clientes', function (RouteCollectorProxy $group) {
     $group->get('[/]', \MesaController::class . ':TraerMesasCerradas');
+    $group->put('/sentarse/{idMesa}', \MesaController::class . ':ModificarUno')->add(new ModificarMesa());
     // $group->get('/sentarse', \MesaController::class . ':sentarse');
   });
 
@@ -58,6 +63,10 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('/{idPedido}', \PedidoController::class . ':TraerUno');
     $group->put('/{idPedido}', \PedidoController::class . ':ModificarUno')->add(new ModificarPedido());
   });
+
+$app->group('/socios', function (RouteCollectorProxy $group){
+  $group->put('/asignarMozo', \SocioController::class . ':asignarMozo')->add(new AsignarMozo());
+})->add(new VerificarSocio());
 
 $app->run();
 ?>

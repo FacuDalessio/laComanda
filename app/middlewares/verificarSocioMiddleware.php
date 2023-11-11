@@ -25,7 +25,6 @@ class VerificarSocio
             $payload = json_encode(array("mensaje" => "No enviaste el rol"));
             $response->getBody()->write($payload);
         }
-
         return $response->withHeader('Content-Type', 'application/json');
     }
 }

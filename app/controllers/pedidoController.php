@@ -1,5 +1,7 @@
 <?php
     require_once './models/pedido.php';
+    require_once './models/mesa.php';
+    require_once './models/trabajador.php';
 
     class PedidoController{
 
@@ -19,7 +21,16 @@
         $pedido->setProductos($body['productos']);
         $pedido->setFecha($body['fecha']);
 
-        $pedido->crearPedido();
+        $idPedido = $pedido->crearPedido();
+
+        $mesa = Mesa::buscarUno($body['idMesa']);
+        $mesa->setIdPedido($idPedido);
+        $mesa->setEstado('con cliente esperando pedido');
+        Mesa::modificarMesa($mesa);
+
+        $mozo = Trabajador::buscarUno($body['idMozos']);
+        $mozo->setIdPedido($idPedido);
+        Trabajador::modificarTrabajador($mozo);
 
         $payload = json_encode(array("mensaje" => "Pedido creado con exito"));
 

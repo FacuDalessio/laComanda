@@ -28,10 +28,8 @@
     {
         $lista = Trabajador::obtenerTrabajadoresActivos();
         $payload = json_encode(array("listaTrabajadores" => $lista));
-
         $response->getBody()->write($payload);
-        return $response
-          ->withHeader('Content-Type', 'application/json');
+        return $response;
     }
 
     public function TraerUno($request, $response, $args)
