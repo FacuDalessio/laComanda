@@ -19,18 +19,23 @@
 							"formdata": [
 								{
 									"key": "nombre",
-									"value": "facundo",
+									"value": "ariel",
 									"type": "text"
 								},
 								{
 									"key": "rol",
 									"value": "mozo",
 									"type": "text"
+								},
+								{
+									"key": "sector",
+									"value": "salon",
+									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "http://localhost:666/trabajadores",
+							"raw": "http://localhost:666/trabajadores?rol=socio",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -38,6 +43,12 @@
 							"port": "666",
 							"path": [
 								"trabajadores"
+							],
+							"query": [
+								{
+									"key": "rol",
+									"value": "socio"
+								}
 							]
 						}
 					},
@@ -49,7 +60,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:666/trabajadores",
+							"raw": "http://localhost:666/trabajadores?rol=socio",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -57,6 +68,132 @@
 							"port": "666",
 							"path": [
 								"trabajadores"
+							],
+							"query": [
+								{
+									"key": "rol",
+									"value": "socio"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar mozos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/trabajadores/mozos?rol=socio",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"trabajadores",
+								"mozos"
+							],
+							"query": [
+								{
+									"key": "rol",
+									"value": "socio"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "borrar trabajador",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/trabajadores/10005?rol=socio",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"trabajadores",
+								"10005"
+							],
+							"query": [
+								{
+									"key": "rol",
+									"value": "socio"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/trabajadores/10004?rol=socio",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"trabajadores",
+								"10004"
+							],
+							"query": [
+								{
+									"key": "rol",
+									"value": "socio"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "modificar trabajador",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idMesa\" : \"14\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:666/trabajadores/10004?rol=socio",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"trabajadores",
+								"10004"
+							],
+							"query": [
+								{
+									"key": "rol",
+									"value": "socio"
+								}
 							]
 						}
 					},
@@ -77,17 +214,17 @@
 							"formdata": [
 								{
 									"key": "nombre",
-									"value": "milanesa",
+									"value": "pancho",
 									"type": "text"
 								},
 								{
 									"key": "stock",
-									"value": "3",
+									"value": "0",
 									"type": "text"
 								},
 								{
 									"key": "precio",
-									"value": "5",
+									"value": "30",
 									"type": "text"
 								},
 								{
@@ -98,7 +235,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:666/productos",
+							"raw": "http://localhost:666/productos?rol=socio",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -106,6 +243,12 @@
 							"port": "666",
 							"path": [
 								"productos"
+							],
+							"query": [
+								{
+									"key": "rol",
+									"value": "socio"
+								}
 							]
 						}
 					},
@@ -129,6 +272,87 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "borrar por id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/productos/10000?rol=socio",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productos",
+								"10000"
+							],
+							"query": [
+								{
+									"key": "rol",
+									"value": "socio"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/productos/10001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productos",
+								"10001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "modificar producto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"stock\" : \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:666/productos/10001?rol=socio",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productos",
+								"10001"
+							],
+							"query": [
+								{
+									"key": "rol",
+									"value": "socio"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -141,7 +365,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:666/mesas",
+							"raw": "http://localhost:666/mesas?rol=socio",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -149,6 +373,12 @@
 							"port": "666",
 							"path": [
 								"mesas"
+							],
+							"query": [
+								{
+									"key": "rol",
+									"value": "socio"
+								}
 							]
 						}
 					},
@@ -160,7 +390,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:666/mesas",
+							"raw": "http://localhost:666/mesas?rol=socio",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -168,6 +398,119 @@
 							"port": "666",
 							"path": [
 								"mesas"
+							],
+							"query": [
+								{
+									"key": "rol",
+									"value": "socio"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar mesas cerradas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/mesas/cerradas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"mesas",
+								"cerradas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/mesas/10001?rol=socio",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"mesas",
+								"10001"
+							],
+							"query": [
+								{
+									"key": "rol",
+									"value": "socio"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "borrar mesa",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/mesas/10001?rol=socio",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"mesas",
+								"10001"
+							],
+							"query": [
+								{
+									"key": "rol",
+									"value": "socio"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "modificar mesa",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"estado\" : \"con cliente esperando pedido\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:666/mesas/10002?rol=socio",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"mesas",
+								"10002"
+							],
+							"query": [
+								{
+									"key": "rol",
+									"value": "socio"
+								}
 							]
 						}
 					},
@@ -188,7 +531,7 @@
 							"formdata": [
 								{
 									"key": "idMesa",
-									"value": "1",
+									"value": "10001",
 									"type": "text"
 								},
 								{
@@ -208,7 +551,7 @@
 								},
 								{
 									"key": "idMozos",
-									"value": "5",
+									"value": "10004",
 									"type": "text"
 								},
 								{
@@ -258,7 +601,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:666/pedidos",
+							"raw": "http://localhost:666/pedidos?rol=socio",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -266,6 +609,187 @@
 							"port": "666",
 							"path": [
 								"pedidos"
+							],
+							"query": [
+								{
+									"key": "rol",
+									"value": "socio"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/pedidos/10001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos",
+								"10001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "borrar pedido",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/pedidos/10001?rol=socio",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos",
+								"10001"
+							],
+							"query": [
+								{
+									"key": "rol",
+									"value": "socio"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "modificiar pedido",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idMesa\" : \"2333\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:666/pedidos/10002?rol=socio",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos",
+								"10002"
+							],
+							"query": [
+								{
+									"key": "rol",
+									"value": "socio"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cliente",
+			"item": [
+				{
+					"name": "traer mesas disponibles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/clientes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sentarse",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cliente\" : \"mauricio\",\r\n    \"estado\" : \"esperando mozo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:666/clientes/sentarse/10002",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"clientes",
+								"sentarse",
+								"10002"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "socio",
+			"item": [
+				{
+					"name": "asignar mozo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idMesa\" : \"10001\",\r\n    \"idMozo\" : \"10004\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:666/socios/asignarMozo?rol=socio",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"socios",
+								"asignarMozo"
+							],
+							"query": [
+								{
+									"key": "rol",
+									"value": "socio"
+								}
 							]
 						}
 					},

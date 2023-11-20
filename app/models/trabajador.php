@@ -1,6 +1,9 @@
 <?php
 require './baseDatos/accesoDatos.php';
 
+use League\Csv\Writer;
+use League\Csv\Reader;
+
 class Trabajador implements JsonSerializable
 {
     private $id;
@@ -8,7 +11,6 @@ class Trabajador implements JsonSerializable
     private $rol;
     private $sector;
     private $idMesa;
-    private $pendientes;
     private $idPedido;
     private $ingresoSistema;
     private $softDelete;
@@ -63,16 +65,6 @@ class Trabajador implements JsonSerializable
         $this->idMesa = $idMesa;
     }
 
-    public function getPendientes()
-    {
-        return $this->pendientes;
-    }
-
-    public function setPendientes($pendientes)
-    {
-        $this->pendientes = $pendientes;
-    }
-
     public function getIdPedido()
     {
         return $this->idPedido;
@@ -111,7 +103,6 @@ class Trabajador implements JsonSerializable
             'rol' => $this->rol,
             'sector' => $this->sector,
             'idMesa' => $this->idMesa,
-            'pendientes' => $this->pendientes,
             'idPedido' => $this->idPedido,
             'ingresoSistema' => $this->ingresoSistema,
             'softDelete' => $this->softDelete
@@ -121,13 +112,12 @@ class Trabajador implements JsonSerializable
     public function crearTrabajador()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO trabajadores (nombre, rol, sector, idMesa, pendientes, idPedido, ingresoSistema, softDelete)
-         VALUES (:nombre, :rol, :sector, :idMesa, :pendientes, :idPedido, :ingresoSistema, :softDelete)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO trabajadores (nombre, rol, sector, idMesa, idPedido, ingresoSistema, softDelete)
+         VALUES (:nombre, :rol, :sector, :idMesa, :idPedido, :ingresoSistema, :softDelete)");
         $consulta->bindValue(':nombre', $this->nombre, PDO::PARAM_STR);
         $consulta->bindValue(':rol', $this->rol, PDO::PARAM_STR);
         $consulta->bindValue(':sector', $this->sector, PDO::PARAM_STR);
         $consulta->bindValue(':idMesa', $this->idMesa, PDO::PARAM_INT);
-        $consulta->bindValue(':pendientes', $this->pendientes, PDO::PARAM_STR);
         $consulta->bindValue(':idPedido', $this->idPedido, PDO::PARAM_INT);
         $consulta->bindValue(':ingresoSistema', $this->ingresoSistema);
         $consulta->bindValue(':softDelete', $this->softDelete, PDO::PARAM_BOOL);
@@ -174,15 +164,70 @@ class Trabajador implements JsonSerializable
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDato->prepararConsulta("UPDATE trabajadores SET nombre = :nombre, rol = :rol, sector = :sector, idMesa = :idMesa, 
-                                                pendientes = :pendientes, idPedido = :idPedido, ingresoSistema = :ingresoSistema WHERE id = :id");
+                                                 idPedido = :idPedido, ingresoSistema = :ingresoSistema WHERE id = :id");
         $consulta->bindValue(':nombre', $trabajador->nombre, PDO::PARAM_STR);
         $consulta->bindValue(':rol', $trabajador->rol, PDO::PARAM_STR);
         $consulta->bindValue(':sector', $trabajador->sector, PDO::PARAM_STR);
         $consulta->bindValue(':idMesa', $trabajador->idMesa, PDO::PARAM_INT);
-        $consulta->bindValue(':pendientes', $trabajador->pendientes, PDO::PARAM_STR);
         $consulta->bindValue(':idPedido', $trabajador->idPedido, PDO::PARAM_INT);
         $consulta->bindValue(':ingresoSistema', $trabajador->ingresoSistema);
         $consulta->bindValue(':id', $trabajador->id);
         $consulta->execute();
+    }
+
+    public static function guardarCSV($lista)
+    {
+        if (!is_dir("./csv")) {
+            mkdir("./csv", 0777, true);
+        }
+
+        $csv = Writer::createFromPath('./csv/trabajadores.csv', 'w+')->setDelimiter(';');
+
+        $csv->insertOne(['id', 'nombre', 'rol', 'sector', 'idMesa', 'idPedido', 'ingresoSistema', 'softDelete']);
+
+        foreach ($lista as $trabajador) {
+            $csv->insertOne([
+                $trabajador->getId(),
+                $trabajador->getNombre(),
+                $trabajador->getRol(),
+                $trabajador->getSector(),
+                $trabajador->getIdMesa(),
+                $trabajador->getIdPedido(),
+                $trabajador->getIngresoSistema(),
+                $trabajador->getSoftDelete(),
+            ]);
+        }
+    }
+
+    public static function leerCSV($rutaArchivo)
+    {
+        $csv = Reader::createFromPath($rutaArchivo, 'r');
+        $csv->setDelimiter(';');
+
+        $records = $csv->getRecords();
+
+        $trabajadores = [];
+        $isFirstRow = true;
+
+        foreach ($records as $record) {
+            if ($isFirstRow) {
+                $isFirstRow = false;
+                continue;
+            }
+
+            $trabajador = new Trabajador();
+            $trabajador->setId($record[0]);
+            $trabajador->setNombre($record[1]);
+            $trabajador->setRol($record[2]);
+            $trabajador->setSector($record[3]);
+            $trabajador->setIdMesa($record[4]);
+            $trabajador->setIdPedido($record[5]);
+            $trabajador->setIngresoSistema($record[6]);
+            $trabajador->setSoftDelete($record[7]);
+
+            $trabajadores[] = $trabajador;
+        }
+
+        return $trabajadores;
     }
 }

@@ -1,0 +1,8 @@
+id;nombre;rol;sector;idMesa;idPedido;ingresoSistema;softDelete
+10003;facundo;mozo;salon;;;;1
+10004;facundo;mozo;salon;10001;10005;;0
+10005;facundo;mozo;salon;10002;10007;;0
+10006;cristian;bartender;cerveceria;;;;0
+10007;juan;cocinero;cocina;;;;0
+10008;ariel;socio;salon;;;;0
+10010;gaston;cocinero;candyBar;;;;0

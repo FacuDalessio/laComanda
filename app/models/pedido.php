@@ -217,4 +217,14 @@ class Pedido implements JsonSerializable
         $consulta->bindValue(':id', $pedido->id);
         $consulta->execute();
     }
+
+    public static function cargarDetallePedido($idPedido, $idProducto, $cantidad){
+        $objAccesoDato = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDato->prepararConsulta("INSERT INTO detallepedidos (idPedido, idProducto, cantidad) 
+                                VALUES (:idPedido, :idProducto, :cantidad)");
+        $consulta->bindValue(':idPedido', $idPedido, PDO::PARAM_INT);
+        $consulta->bindValue(':idProducto', $idProducto, PDO::PARAM_INT);
+        $consulta->bindValue(':cantidad', $cantidad, PDO::PARAM_INT);
+        $consulta->execute();
+    }
 }
