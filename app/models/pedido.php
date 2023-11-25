@@ -3,14 +3,10 @@ class Pedido implements JsonSerializable
 {
     private $id;
     private $idMesa;
-    private $idBartender;
-    private $idCerveceros;
-    private $idCocineros;
     private $idMozos;
     private $importe;
     private $estado;
     private $tiempo;
-    private $productos;
     private $fecha;
     private $imagen;
 
@@ -32,36 +28,6 @@ class Pedido implements JsonSerializable
     public function setIdMesa($idMesa)
     {
         $this->idMesa = $idMesa;
-    }
-
-    public function getIdBartender()
-    {
-        return $this->idBartender;
-    }
-
-    public function setIdBartender($idBartender)
-    {
-        $this->idBartender = $idBartender;
-    }
-
-    public function getIdCerveceros()
-    {
-        return $this->idCerveceros;
-    }
-
-    public function setIdCerveceros($idCerveceros)
-    {
-        $this->idCerveceros = $idCerveceros;
-    }
-
-    public function getIdCocineros()
-    {
-        return $this->idCocineros;
-    }
-
-    public function setIdCocineros($idCocineros)
-    {
-        $this->idCocineros = $idCocineros;
     }
 
     public function getIdMozos()
@@ -104,16 +70,6 @@ class Pedido implements JsonSerializable
         $this->tiempo = $tiempo;
     }
 
-    public function getProductos()
-    {
-        return $this->productos;
-    }
-
-    public function setProductos($productos)
-    {
-        $this->productos = $productos;
-    }
-
     public function getFecha()
     {
         return $this->fecha;
@@ -139,14 +95,10 @@ class Pedido implements JsonSerializable
         return [
             'id' => $this->id,
             'idMesa' => $this->idMesa,
-            'idBartender' => $this->idBartender,
-            'idCerveceros' => $this->idCerveceros,
-            'idCocineros' => $this->idCocineros,
             'idMozos' => $this->idMozos,
             'importe' => $this->importe,
             'estado' => $this->estado,
             'tiempo' => $this->tiempo,
-            'productos' => $this->productos,
             'fecha' => $this->fecha,
             'imagen' => $this->imagen,
         ];
@@ -156,17 +108,12 @@ class Pedido implements JsonSerializable
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos (idMesa, idBartender, idCerveceros, idCocineros, idMozos, importe,
-             estado, tiempo, productos, fecha, imagen) VALUES (:idMesa, :idBartender, :idCerveceros, :idCocineros, :idMozos, :importe, :estado, 
-             :tiempo, :productos, :fecha, :imagen)");
+             estado, tiempo, productos, fecha, imagen) VALUES (:idMesa, :idMozos, :importe, :estado, :tiempo, :fecha, :imagen)");
         $consulta->bindValue(':idMesa', $this->idMesa, PDO::PARAM_INT);
-        $consulta->bindValue(':idBartender', $this->idBartender, PDO::PARAM_INT);
-        $consulta->bindValue(':idCerveceros', $this->idCerveceros, PDO::PARAM_INT);
-        $consulta->bindValue(':idCocineros', $this->idCocineros, PDO::PARAM_INT);
         $consulta->bindValue(':idMozos', $this->idMozos, PDO::PARAM_INT);
         $consulta->bindValue(':importe', $this->importe, PDO::PARAM_STR);
         $consulta->bindValue(':estado', $this->estado, PDO::PARAM_STR);
         $consulta->bindValue(':tiempo', $this->tiempo, PDO::PARAM_INT);
-        $consulta->bindValue(':productos', $this->productos, PDO::PARAM_STR);
         $consulta->bindValue(':fecha', $this->fecha, PDO::PARAM_STR);
         $consulta->bindValue(':imagen', $this->imagen, PDO::PARAM_STR);
         $consulta->execute();
@@ -202,18 +149,14 @@ class Pedido implements JsonSerializable
     public static function modificarPedido($pedido)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("UPDATE pedidos SET idMesa = :idMesa, idBartender = :idBartender, idCerveceros = :idCerveceros, 
-                                idCocineros = :idCocineros, idMozos = :idMozos, importe = :importe, estado = :estado, tiempo = :tiempo,
-                                productos = :productos WHERE id = :id");
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE pedidos SET idMesa = :idMesa, idMozos = :idMozos, importe = :importe, estado = :estado,
+                                                     tiempo = :tiempo, imagen= :imagen WHERE id = :id");
         $consulta->bindValue(':idMesa', $pedido->idMesa, PDO::PARAM_INT);
-        $consulta->bindValue(':idBartender', $pedido->idBartender, PDO::PARAM_INT);
-        $consulta->bindValue(':idCerveceros', $pedido->idCerveceros, PDO::PARAM_INT);
-        $consulta->bindValue(':idCocineros', $pedido->idCocineros, PDO::PARAM_INT);
         $consulta->bindValue(':idMozos', $pedido->idMozos, PDO::PARAM_INT);
         $consulta->bindValue(':importe', $pedido->importe, PDO::PARAM_STR);
         $consulta->bindValue(':estado', $pedido->estado, PDO::PARAM_STR);
+        $consulta->bindValue(':imagen', $pedido->imagen, PDO::PARAM_STR);
         $consulta->bindValue(':tiempo', $pedido->tiempo, PDO::PARAM_INT);
-        $consulta->bindValue(':productos', $pedido->productos, PDO::PARAM_STR);
         $consulta->bindValue(':id', $pedido->id);
         $consulta->execute();
     }

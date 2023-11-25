@@ -175,4 +175,30 @@ class PedidoController
         return $response
             ->withHeader('Content-Type', 'application/json');
     }
+    public function subirImagen($request, $response, $args){
+        $uploadedFiles = $request->getUploadedFiles();
+        $routeContext = RouteContext::fromRequest($request);
+        $route = $routeContext->getRoute();
+        $idPedido = $route->getArgument('idPedido');
+
+        $imagen = $uploadedFiles['imagen'];
+
+        $nombreArchivo = $imagen->getClientFilename();
+
+        if (!is_dir("./imagen")) {
+            mkdir("./imagen", 0777, true);
+        }
+
+        $directorioDestino ="./imagen/" . $nombreArchivo;
+        $imagen->moveTo($directorioDestino);
+
+        $pedido = Pedido::buscarUno($idPedido);
+        $pedido->setImagen($directorioDestino);
+        Pedido::modificarPedido($pedido);
+
+        $payload = json_encode(array("mensaje" => "Imagen cargada con exito"));
+        $response->getBody()->write($payload);
+        return $response
+            ->withHeader('Content-Type', 'application/json');
+    }
 }

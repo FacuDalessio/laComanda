@@ -66,6 +66,7 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('/tiempo/{idPedido}', \PedidoController::class . ':mostrarTiempo');
     $group->post('[/]', \PedidoController::class . ':CargarUno')->add(new VerificarMozo())->add(new AuthMiddleware())->add(new CargarPedido());
     $group->post('/cargarProducto', \PedidoController::class . ':cargarProductoAPedido')->add(new VerificarMozo())->add(new AuthMiddleware())->add(new CargarDetallePedido());
+    $group->post('/subirImagen/{idPedido}', \PedidoController::class . ':subirImagen')->add(new VerificarMozo())->add(new AuthMiddleware())->add(new SubirImagen());
     $group->delete('/{idPedido}', \PedidoController::class . ':BorrarUno')->add(new VerificarSocio())->add(new AuthMiddleware());
     $group->get('/{idPedido}', \PedidoController::class . ':TraerUno');
     $group->put('/{idPedido}', \PedidoController::class . ':ModificarUno')->add(new ModificarPedido());

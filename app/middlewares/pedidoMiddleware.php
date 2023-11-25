@@ -82,4 +82,24 @@ class CargarDetallePedido
         return $response->withHeader('Content-Type', 'application/json');
     }
 }
+
+class SubirImagen
+{
+    public function __invoke(Request $request, RequestHandler $handler): Response
+    {   
+        $uploadedFiles = $request->getUploadedFiles();
+
+        if (isset($uploadedFiles['imagen'])) {
+
+            $response = $handler->handle($request);
+
+        }else{
+            $response = new Response();
+            $payload = json_encode(array("mensaje" => "Falto enviar datos"));
+            $response->getBody()->write($payload);
+        }
+
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+}
 ?>
