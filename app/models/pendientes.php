@@ -127,6 +127,24 @@ public static function buscarUno($idPendiente)
     return $consulta->fetchObject('Pendientes');
 }
 
+public static function listarPorPedido($idPedido)
+{
+    $objAccesoDatos = AccesoDatos::obtenerInstancia();
+    $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes WHERE idPedido = :idPedido");
+    $consulta->bindValue(':idPedido', $idPedido, PDO::PARAM_INT);
+    $consulta->execute();
+
+    return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pendientes');
+}
+
+public static function borrarPendiente($idPendiente)
+{
+    $objAccesoDato = AccesoDatos::obtenerInstancia();
+    $consulta = $objAccesoDato->prepararConsulta("DELETE FROM pendientes WHERE id = :id");
+    $consulta->bindValue(':id', $idPendiente, PDO::PARAM_INT);
+    $consulta->execute();
+}
+
 }
 
 ?>

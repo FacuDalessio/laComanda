@@ -51,6 +51,7 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->delete('/{idMesa}', \MesaController::class . ':BorrarUno')->add(new VerificarSocio())->add(new AuthMiddleware());
     $group->put('/modificar/{idMesa}', \MesaController::class . ':ModificarUno')->add(new VerificarSocio())->add(new AuthMiddleware())->add(new ModificarMesa());
     $group->put('/asignarMozo', \TrabajadorController::class . ':asignarMozo')->add(new VerificarMozo())->add(new AuthMiddleware())->add(new AsignarMozo());
+    $group->put('/cerrar/{idMesa}', \MesaController::class . ':cerrarMesa')->add(new VerificarSocio())->add(new AuthMiddleware());
   });
 
   $app->group('/clientes', function (RouteCollectorProxy $group) {
@@ -62,19 +63,26 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \PedidoController::class . ':TraerTodos')->add(new VerificarSocio())->add(new AuthMiddleware());
     $group->get('/pendientes/listar', \PedidoController::class . ':listarPendientes')->add(new AuthMiddleware());
+    $group->get('/tiempo/{idPedido}', \PedidoController::class . ':mostrarTiempo');
     $group->post('[/]', \PedidoController::class . ':CargarUno')->add(new VerificarMozo())->add(new AuthMiddleware())->add(new CargarPedido());
     $group->post('/cargarProducto', \PedidoController::class . ':cargarProductoAPedido')->add(new VerificarMozo())->add(new AuthMiddleware())->add(new CargarDetallePedido());
     $group->delete('/{idPedido}', \PedidoController::class . ':BorrarUno')->add(new VerificarSocio())->add(new AuthMiddleware());
     $group->get('/{idPedido}', \PedidoController::class . ':TraerUno');
     $group->put('/{idPedido}', \PedidoController::class . ':ModificarUno')->add(new ModificarPedido());
+    $group->put('/entregar/{idPedido}', \PedidoController::class . ':entregarPedido')->add(new VerificarMozo())->add(new AuthMiddleware());
   });
 
 $app->group('/pendientes', function (RouteCollectorProxy $group){
   $group->put('/tomar', \TrabajadorController::class . ':tomarPendiente')->add(new AuthMiddleware())->add(new TomarPendiente());
+  $group->put('/terminar', \TrabajadorController::class . ':terminarPendiente')->add(new AuthMiddleware())->add(new TerminarPendiente());
 });
 
 $app->group('/login', function (RouteCollectorProxy $group){
   $group->post('[/]', \TrabajadorController::class . ':login');
+});
+
+$app->group('/encuesta', function (RouteCollectorProxy $group){
+  $group->post('[/]', \TrabajadorController::class . ':crearEncuesta')->add(new VerificarMozo())->add(new AuthMiddleware())->add(new CrearEncuesta());
 });
 
 $app->run();

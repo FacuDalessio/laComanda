@@ -4,6 +4,7 @@ require_once './models/mesa.php';
 require_once './models/trabajador.php';
 require_once './models/producto.php';
 require_once './models/pendientes.php';
+use Slim\Routing\RouteContext;
 
 class PedidoController
 {
@@ -18,7 +19,9 @@ class PedidoController
         $pedido->setEstado('pendiente');
         $pedido->setImporte(0);
         $pedido->setTiempo(0);
-        $pedido->setFecha(date('d/m/Y H:i'));
+        $fechaActual = new DateTime();
+        $fechaFormateada = $fechaActual->format('d/m/Y H:i');
+        $pedido->setFecha($fechaFormateada);
 
         $idPedido = $pedido->crearPedido();
 
@@ -127,5 +130,49 @@ class PedidoController
         $payload = json_encode(array("listaPendientes" => $lista));
         $response->getBody()->write($payload);
         return $response;
+    }
+
+    public function mostrarTiempo($request, $response, $args)
+    {
+        $routeContext = RouteContext::fromRequest($request);
+        $route = $routeContext->getRoute();
+        $idPedido = $route->getArgument('idPedido');
+        $pedido = Pedido::buscarUno($idPedido);
+        $payload = json_encode(array("Tiempo" => $pedido->getTiempo()));
+        $response->getBody()->write($payload);
+        return $response
+            ->withHeader('Content-Type', 'application/json');
+    }
+
+    public function entregarPedido($request, $response, $args){
+        $routeContext = RouteContext::fromRequest($request);
+        $route = $routeContext->getRoute();
+        $idPedido = $route->getArgument('idPedido');
+
+        $pendientes = Pendientes::listarPorPedido($idPedido);
+        $enPreparacion = 0;
+
+        foreach ($pendientes as $pendiente) {
+            if ($pendiente->getEstado() == 'listo para servir') {
+                Pendientes::borrarPendiente($pendiente->getId());
+            }else{
+                $enPreparacion++;
+            }
+        }
+
+        if ($enPreparacion == 0) {
+            $pedido = Pedido::buscarUno($idPedido);
+            $pedido->setEstado('entregado');
+            Pedido::modificarPedido($pedido);
+            $mesa = Mesa::buscarUno($pedido->getIdMesa());
+            $mesa->setEstado('con cliente comiendo');
+            Mesa::modificarMesa($mesa);
+            $payload = json_encode(array("mensaje" => "Pedido entregado con exito"));
+        }else{
+            $payload = json_encode(array("mensaje" => "No se puede entregar el pedido porque hay pendientes sin terminar"));
+        }
+        $response->getBody()->write($payload);
+        return $response
+            ->withHeader('Content-Type', 'application/json');
     }
 }

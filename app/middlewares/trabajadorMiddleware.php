@@ -119,14 +119,58 @@ class TomarPendiente
         $datos = file_get_contents("php://input");
         $datosJson = json_decode($datos, true);
 
-        if (isset($datosJson['tiempo']) && $datosJson['tiempo'] != null && isset($datosJson['idPendiente']) && $datosJson['idPendiente'] != null) {
+        if (isset($datosJson['tiempo']) && $datosJson['tiempo'] != null && isset($datosJson['idPendiente']) && $datosJson['idPendiente'] != null
+                && isset($datosJson['idTrabajador']) && $datosJson['idTrabajador'] != null) {
             $request = $request->withAttribute('tiempo', $datosJson['tiempo']);
             $pendiente = Pendientes::buscarUno($datosJson['idPendiente']);
             $request = $request->withAttribute('pendiente', $pendiente);
+            $trabajador = Trabajador::buscarUno($datosJson['idTrabajador']);
+            $request = $request->withAttribute('trabajador', $trabajador);
             $response = $handler->handle($request);
         } else {
             $response = new Response();
             $payload = json_encode(array("Error" => "Faltaron enviar datos"));
+            $response->getBody()->write($payload);
+        }
+
+        return $response;
+    }
+}
+
+class TerminarPendiente
+{
+    public function __invoke(Request $request, RequestHandler $handler): Response
+    {
+        $datos = file_get_contents("php://input");
+        $datosJson = json_decode($datos, true);
+
+        if (isset($datosJson['idPendiente']) && $datosJson['idPendiente'] != null && isset($datosJson['idTrabajador']) && $datosJson['idTrabajador'] != null) {
+            $pendiente = Pendientes::buscarUno($datosJson['idPendiente']);
+            $request = $request->withAttribute('pendiente', $pendiente);
+            $trabajador = Trabajador::buscarUno($datosJson['idTrabajador']);
+            $request = $request->withAttribute('trabajador', $trabajador);
+            $response = $handler->handle($request);
+        } else {
+            $response = new Response();
+            $payload = json_encode(array("Error" => "Faltaron enviar datos"));
+            $response->getBody()->write($payload);
+        }
+
+        return $response;
+    }
+}
+
+class CrearEncuesta{
+    public function __invoke(Request $request, RequestHandler $handler): Response
+    {
+        $body = $request->getParsedBody();
+
+        if (isset($body['mesa']) && isset($body['restaurante']) && isset($body['mozo']) && isset($body['cocinero']) && isset($body['experiencia'])) {
+
+            $response = $handler->handle($request);
+        } else {
+            $response = new Response();
+            $payload = json_encode(array("mensaje" => "Falto enviar datos"));
             $response->getBody()->write($payload);
         }
 

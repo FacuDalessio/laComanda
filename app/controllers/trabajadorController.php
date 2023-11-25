@@ -2,6 +2,7 @@
     require_once './models/trabajador.php';
     require_once './models/mesa.php';
     require_once './models/pendientes.php';
+    require_once './models/encuesta.php';
     require_once './utils/autentificadorJWT.php';
 
     class TrabajadorController{
@@ -126,6 +127,7 @@
     public function tomarPendiente($request, $response, $args){
         $pendiente = $request->getAttribute('pendiente');
         $tiempo = $request->getAttribute('tiempo');
+        $trabajador = $request->getAttribute('trabajador');
 
         $pedido = Pedido::buscarUno($pendiente->getIdPedido());
 
@@ -136,8 +138,33 @@
         Pedido::modificarPedido($pedido);
         $pendiente->setEstado('en preparacion');
         Pendientes::modificarPendiente($pendiente);
+        $trabajador->setIdPedido($pedido->getId());
+        Trabajador::modificarTrabajador($trabajador);
 
         $payload = json_encode(array("mensaje" => "Se tome el pendiente correctamente"));
+        $response->getBody()->write($payload);
+        return $response;
+    }
+
+    public function terminarPendiente($request, $response, $args){
+        $pendiente = $request->getAttribute('pendiente');
+        $trabajador = $request->getAttribute('trabajador');
+
+        $pendiente->setEstado('listo para servir');
+        Pendientes::modificarPendiente($pendiente);
+        $trabajador->setIdPedido(null);
+        Trabajador::modificarTrabajador($trabajador);
+
+        $payload = json_encode(array("mensaje" => "Se termino el pendiente correctamente"));
+        $response->getBody()->write($payload);
+        return $response;
+    }
+
+    public function crearEncuesta($request, $response, $args){
+        $body = $request->getParsedBody();
+        $encuesta = new Encuesta($body['mesa'], $body['restaurante'], $body['mozo'], $body['cocinero'], $body['experiencia']);
+        $encuesta->crearEncuesta();
+        $payload = json_encode(array("mensaje" => "Encuesta creada correctamente"));
         $response->getBody()->write($payload);
         return $response;
     }

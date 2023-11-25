@@ -1,5 +1,6 @@
 <?php
     require_once './models/mesa.php';
+    use Slim\Routing\RouteContext;
 
     class MesaController{
 
@@ -79,5 +80,19 @@
         return $response
           ->withHeader('Content-Type', 'application/json');
     }
+    public function cerrarMesa($request, $response, $args){
+        $routeContext = RouteContext::fromRequest($request);
+        $route = $routeContext->getRoute();
+        $idMesa = $route->getArgument('idMesa');
+        $mesa = Mesa::buscarUno($idMesa);
+        $mesa->setEstado('cerrada');
+        Mesa::modificarMesa($mesa);
+
+        $payload = json_encode(array("mensaje" => "Mesa cerrada con exito"));
+
+        $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
     }
+}
 ?>

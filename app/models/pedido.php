@@ -167,7 +167,7 @@ class Pedido implements JsonSerializable
         $consulta->bindValue(':estado', $this->estado, PDO::PARAM_STR);
         $consulta->bindValue(':tiempo', $this->tiempo, PDO::PARAM_INT);
         $consulta->bindValue(':productos', $this->productos, PDO::PARAM_STR);
-        $consulta->bindValue(':fecha', $this->fecha);
+        $consulta->bindValue(':fecha', $this->fecha, PDO::PARAM_STR);
         $consulta->bindValue(':imagen', $this->imagen, PDO::PARAM_STR);
         $consulta->execute();
 
