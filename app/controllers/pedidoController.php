@@ -109,6 +109,7 @@ class PedidoController
         $pendientes->setSector($producto->getCategoria());
         $pendientes->setIdProducto($idProducto);
         $pendientes->setCantidad($cantidad);
+        $pendientes->setEstado("pendiente");
         $pendientes->crearPendiente();
 
         $pedido = Pedido::buscarUno($idPedido);

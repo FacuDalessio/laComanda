@@ -107,8 +107,8 @@ class Pedido implements JsonSerializable
     public function crearPedido()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos (idMesa, idBartender, idCerveceros, idCocineros, idMozos, importe,
-             estado, tiempo, productos, fecha, imagen) VALUES (:idMesa, :idMozos, :importe, :estado, :tiempo, :fecha, :imagen)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos (idMesa, idMozos, importe, estado, tiempo, fecha, imagen) 
+                                VALUES (:idMesa, :idMozos, :importe, :estado, :tiempo, :fecha, :imagen)");
         $consulta->bindValue(':idMesa', $this->idMesa, PDO::PARAM_INT);
         $consulta->bindValue(':idMozos', $this->idMozos, PDO::PARAM_INT);
         $consulta->bindValue(':importe', $this->importe, PDO::PARAM_STR);
