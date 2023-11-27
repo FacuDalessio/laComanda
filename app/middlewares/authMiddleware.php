@@ -11,15 +11,15 @@ class AuthMiddleware
     {   
         $header = $request->getHeaderLine('Authorization');
         $token = trim(explode("Bearer", $header)[1]);
-        // try {
+        try {
             AutentificadorJWT::VerificarToken($token);
             $request = $request->withAttribute('token', $token);
             $response = $handler->handle($request);
-        // } catch (Exception $e) {
-        //     $response = new Response();
-        //     $payload = json_encode(array('mensaje' => 'ERROR: Hubo un error con el TOKEN'));
-        //     $response->getBody()->write($payload);
-        // }
+        } catch (Exception $e) {
+            $response = new Response();
+            $payload = json_encode(array('mensaje' => 'ERROR: Hubo un error con el TOKEN'));
+            $response->getBody()->write($payload);
+        }
         return $response->withHeader('Content-Type', 'application/json');
     }
 }
